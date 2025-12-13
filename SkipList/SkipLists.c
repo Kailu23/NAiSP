@@ -2,6 +2,8 @@
 
 #define MAX 32
 
+int init = 0;
+
 struct _element {
 	int x;
 	int height;
@@ -105,7 +107,7 @@ void delete(lista* list, int key) {
 		
 	}
 	if (flag == 1) {
-		element* tmp; 
+		element* tmp = malloc(sizeof(element)); 
 		for (int i = 0; i < MAX; i++) {
 			if (i == 0) {
 				tmp = prev[i]->next[i];
