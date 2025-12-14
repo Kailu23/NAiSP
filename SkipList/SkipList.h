@@ -19,7 +19,7 @@ typedef struct _lista lista;
 
 int random(int max);
 
-element* inicijalizacija();
+lista* inicijalizacija();
 
 void ubaci(lista* lista, int x);
 
@@ -29,6 +29,14 @@ element* search(lista* list, int key);
 
 void printSkipList(lista* list);
 
-//my custom function
 
-void InsertIntoPerfectSkipList(lista* lista, int x);
+//my custom functions
+
+void fprintSkipList(lista* list);
+
+void Insert(lista* lista, int x);
+
+void RecalculateHeight(element* node, int x);
+
+void FreeMemory(lista* lista);
+
