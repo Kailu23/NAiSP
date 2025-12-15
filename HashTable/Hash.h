@@ -11,7 +11,7 @@ typedef struct _hashMap {
 } hashMap;
 
 
-void initializeHashMap(hashMap* map);
+void initializeHashMap(hashMap* map, int capacity);
 
 int hashFunction(hashMap* map, char* key);
 

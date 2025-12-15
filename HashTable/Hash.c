@@ -3,8 +3,8 @@
 
 #define __INTMAX16__ 32767
 
-void initializeHashMap(hashMap* map) {
-	map->capacity = 100;
+void initializeHashMap(hashMap* map, int capacity) {
+	map->capacity = capacity;
 	map->numberOfElements = 0;
 
 	map->array = (char**)calloc(map->capacity, sizeof(char*));
@@ -15,7 +15,7 @@ int hashFunction(hashMap* map, char* key) {
 	int bucketIndex;
 	int sum = 0, factor = 31;
 	for (int i = 0; i < strlen(key); i++) {
-		sum = ((sum % map->capacity) + (((int)key[i]) * factor) % map->capacity) % map->capacity;
+		sum = ((sum % map->capacity) + ((int)key[i] % 63) % map->capacity) % map->capacity;
 
 		factor = (factor * 31) % __INTMAX16__;
 	}
@@ -29,7 +29,7 @@ hashMap* insert(hashMap* map, char* value) {
 		return;
 	}
 	int bucketIndex = hashFunction(map, value);
-	int tmp = 0;
+	int tmp;
 	float loadFactor;
 
 
@@ -39,14 +39,12 @@ hashMap* insert(hashMap* map, char* value) {
 		map->numberOfElements++;
 	}
 	else {
-		tmp += bucketIndex;
+		tmp = bucketIndex + 1;
 		while (map->array[tmp] != NULL) {
-			if (map->array[tmp] == value) {
-				tmp++;
-			}
+			tmp++;
 		}
 
-		if (tmp == map->capacity) {
+		if (tmp >= map->capacity) {
 			tmp = 0;
 			while (map->array[tmp] != NULL && tmp < bucketIndex) {
 				if (map->array[tmp] == value) {
@@ -150,20 +148,15 @@ hashMap* rehash(hashMap* map, float factor) {
 
 	hashMap* newMap = (hashMap*)malloc(sizeof(hashMap));
 
-	initializeHashMap(newMap);
-
 	int newCapacity = map->capacity * factor;
+
+	initializeHashMap(newMap, newCapacity);
+
+	newMap->numberOfElements = map->numberOfElements;
 
 	if (map->numberOfElements > newCapacity) {
 		printf("Premala velicina hash tablice.");
 		return;
-	}
-
-	newMap->capacity = newCapacity;
-	newMap->numberOfElements = map->numberOfElements;
-
-	for (int i = 0; i < map->capacity; i++) {
-		free(newMap->array[i]);
 	}
 
 	newMap->array = (char**)calloc(newMap->capacity, sizeof(char*));
