@@ -16,16 +16,12 @@ int main() {
 	}
 	printSkipList(head);
 
+	delete(head, 70);
+
+	printSkipList(head);
+
 	FreeMemory(head);
 
-	lista* head2 = inicijalizacija();
-
-	for (int i = 0; i < N; i++) {
-		Insert(head2, numbers[i]);
-	}
-	printSkipList(head2);
-
-	FreeMemory(head2);
 	return 0;
 
 }
