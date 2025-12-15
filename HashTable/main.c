@@ -2,7 +2,7 @@
 
 void TestHashMap() {
     hashMap* map = (hashMap*)malloc(sizeof(hashMap));
-    initializeHashMap(map);
+    initializeHashMap(map, 100);
 
     printf("%d %d\n", map->capacity, map->numberOfElements);
 
@@ -38,6 +38,23 @@ void TestHashMap() {
 
 int main() {
 
-    TestHashMap();
-	return 0;
+    //TestHashMap();
+
+    hashMap* map = (hashMap*)malloc(sizeof(hashMap));
+    initializeHashMap(map, 7);
+
+    printf("Insertion:\n");
+    map = insert(map, "A");
+    map = insert(map, "AA");
+    map = insert(map, "AB");
+    map = insert(map, "B");
+    map = insert(map, "BB");
+    map = insert(map, "AAA");
+    map = insert(map, "BA");
+
+    printf("%s\n", search(map, "AAA"));
+    map = delete(map, "AAA");
+    printf("%s\n", search(map, "AAA"));
+
+    return 0;
 }

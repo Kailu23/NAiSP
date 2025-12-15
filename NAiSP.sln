@@ -1,28 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-<<<<<<< HEAD
-# Visual Studio Version 18
-VisualStudioVersion = 18.0.11222.15 d18.0
-=======
-
-
-
-
-
-
 # Visual Studio Version 18
 VisualStudioVersion = 18.0.11222.15
->>>>>>> hash-table
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LV1", "LV1\LV1.vcxproj", "{E30ECE71-E2F6-4AB2-93DB-4806B1E5331D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkipList", "SkipList\SkipList.vcxproj", "{53B404C5-268F-4AB7-9AE2-699DA2345304}"
 EndProject
-<<<<<<< HEAD
-=======
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HashTable", "HashTable\HashTable.vcxproj", "{34D50F25-A3C5-4139-95F9-A48F109B7A6B}"
 EndProject
->>>>>>> hash-table
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -47,6 +33,14 @@ Global
 		{53B404C5-268F-4AB7-9AE2-699DA2345304}.Release|x64.Build.0 = Release|x64
 		{53B404C5-268F-4AB7-9AE2-699DA2345304}.Release|x86.ActiveCfg = Release|Win32
 		{53B404C5-268F-4AB7-9AE2-699DA2345304}.Release|x86.Build.0 = Release|Win32
+		{34D50F25-A3C5-4139-95F9-A48F109B7A6B}.Debug|x64.ActiveCfg = Debug|x64
+		{34D50F25-A3C5-4139-95F9-A48F109B7A6B}.Debug|x64.Build.0 = Debug|x64
+		{34D50F25-A3C5-4139-95F9-A48F109B7A6B}.Debug|x86.ActiveCfg = Debug|Win32
+		{34D50F25-A3C5-4139-95F9-A48F109B7A6B}.Debug|x86.Build.0 = Debug|Win32
+		{34D50F25-A3C5-4139-95F9-A48F109B7A6B}.Release|x64.ActiveCfg = Release|x64
+		{34D50F25-A3C5-4139-95F9-A48F109B7A6B}.Release|x64.Build.0 = Release|x64
+		{34D50F25-A3C5-4139-95F9-A48F109B7A6B}.Release|x86.ActiveCfg = Release|Win32
+		{34D50F25-A3C5-4139-95F9-A48F109B7A6B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
