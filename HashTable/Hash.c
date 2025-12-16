@@ -26,7 +26,8 @@ int hashFunction(hashMap* map, char* key) {
 
 hashMap* insert(hashMap* map, char* value) {
 	if (value == NULL) {
-		return;
+		printf("Value is NULL\n");
+		return map;
 	}
 	int bucketIndex = hashFunction(map, value);
 	int tmp;
@@ -155,8 +156,8 @@ hashMap* rehash(hashMap* map, float factor) {
 	newMap->numberOfElements = map->numberOfElements;
 
 	if (map->numberOfElements > newCapacity) {
-		printf("Premala velicina hash tablice.");
-		return;
+		printf("Premala velicina hash tablice.\n");
+		return map;
 	}
 
 	newMap->array = (char**)calloc(newMap->capacity, sizeof(char*));
@@ -164,7 +165,9 @@ hashMap* rehash(hashMap* map, float factor) {
 	printf("Inserting...\n");
 
 	for (int i = 0; i < map->capacity; i++) {
-		insert(newMap, map->array[i]);
+		if (map->array[i] != NULL) {
+			insert(newMap, map->array[i]);
+		}
 	}
 
 	printf("%d %d\n", newMap->capacity, newMap->numberOfElements);
