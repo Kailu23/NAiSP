@@ -2,6 +2,8 @@
 #include "Hash.h"
 
 #define __INTMAX16__ 32767
+#define ASCII 63
+#define PRIMENUMBER 31
 
 void initializeHashMap(hashMap* map, int capacity) {
 	map->capacity = capacity;
@@ -13,11 +15,11 @@ void initializeHashMap(hashMap* map, int capacity) {
 
 int hashFunction(hashMap* map, char* key) {
 	int bucketIndex;
-	int sum = 0, factor = 31;
+	int sum = 0, factor = PRIMENUMBER;
 	for (int i = 0; i < strlen(key); i++) {
-		sum = ((sum % map->capacity) + ((int)key[i] % 63) % map->capacity) % map->capacity;
+		sum = ((sum % map->capacity) + ((int)key[i] % ASCII) % map->capacity) % map->capacity;
 
-		factor = (factor * 31) % __INTMAX16__;
+		factor = (factor * PRIMENUMBER) % __INTMAX16__;
 	}
 
 	bucketIndex = sum;
@@ -113,13 +115,13 @@ char* search(hashMap* map, char* value) {
 	}
 	else {
 		tmp += bucketIndex;
-		while (map->array[tmp] != NULL || tmp < map->capacity) {
+		while (map->array[tmp] != NULL && tmp < map->capacity) {
 			if (map->array[tmp] == value) {
 				return value;
 			}
 			tmp++;
 		}
-		if (tmp == map->capacity - 1) {
+		if (tmp == map->capacity) {
 			tmp = 0;
 			while (map->array[tmp] != NULL && tmp < bucketIndex) {
 				if (map->array[tmp] == value) {

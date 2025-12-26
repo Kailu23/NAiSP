@@ -43,7 +43,7 @@ int main() {
     hashMap* map = (hashMap*)malloc(sizeof(hashMap));
     initializeHashMap(map, 7);
 
-    printf("Insertion:\n");
+    /*printf("Insertion:\n");
     map = insert(map, "A");
     map = insert(map, "AA");
     map = insert(map, "AB");
@@ -54,7 +54,15 @@ int main() {
 
     printf("%s\n", search(map, "AAA"));
     map = delete(map, "AAA");
-    printf("%s\n", search(map, "AAA"));
+    printf("%s\n", search(map, "AAA"));*/
+
+    printf("Insertion:\n");
+    map = insert(map, "ABCDD");
+    map = insert(map, "ABDCD");
+    map = insert(map, "ACBDD");
+    map = insert(map, "ACDBD");
+    map = insert(map, "ADCBD");
+    printf("%s\n", search(map, "ACDBD"));
 
     return 0;
 }
