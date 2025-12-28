@@ -5,10 +5,11 @@
 #define ASCII 63
 #define PRIMENUMBER 31
 
+
+
 void initializeHashMap(hashMap* map, int capacity) {
 	map->capacity = capacity;
 	map->numberOfElements = 0;
-
 	map->array = (char**)calloc(map->capacity, sizeof(char*));
 	return;
 }
@@ -41,6 +42,10 @@ hashMap* insert(hashMap* map, char* value) {
 		printf("%s ubacen na mjesto array[%d]\n", value, bucketIndex);
 		map->numberOfElements++;
 	}
+	else if (map->array[bucketIndex] == value) {
+		printf("Vec postoji!\n");
+		return map;
+	}
 	else {
 		tmp = bucketIndex + 1;
 		while (map->array[tmp] != NULL) {
@@ -58,7 +63,6 @@ hashMap* insert(hashMap* map, char* value) {
 
 			if (tmp == bucketIndex) {
 				printf("Nema slobodnog mjesta!\n");
-				/*TODO : Rehashing*/
 			}
 			else {
 				printf("%s ubacen na mjesto array[%d]\n", value, tmp);
@@ -90,11 +94,49 @@ hashMap* delete (hashMap* map, char* value) {
 	int bucketIndex = hashFunction(map, value);
 	float loadFactor;
 
-	for (int i = 0; i < map->capacity; i++) {
-		if (map->array[i] == value) {
-			map->array[i] = NULL;
+	if (map->array[bucketIndex] != NULL && strcmp(map->array[bucketIndex], value) == 0) {
+		map->array[bucketIndex] = NULL;
+		return map;
+	}
+	else if (map->array[bucketIndex] == NULL) {
+		int tmp = bucketIndex + 1;
+		for (int i = tmp; i < map->capacity; i++) {
+			if (map->array[i] == NULL) continue;
+			if (strcmp(map->array[i], value) == 0) {
+				map->array[i] = NULL;
+				return map;
+			}
+		}
+		for (int i = 0; i < tmp - 1; i++) {
+			if (map->array[i] == NULL) continue;
+			if (strcmp(map->array[i], value) == 0) {
+				map->array[i] = NULL;
+				return map;
+			}
 		}
 	}
+	else if (strcmp(map->array[bucketIndex], value) != 0) {
+		int tmp = bucketIndex + 1;
+		for (int i = tmp; i < map->capacity; i++) {
+			if (map->array[i] == NULL) continue;
+			if (strcmp(map->array[i], value) == 0) {
+				map->array[i] = NULL;
+				return map;
+			}
+		}
+		for (int i = 0; i < tmp - 1; i++) {
+			if (map->array[i] == NULL) continue;
+			if (strcmp(map->array[i], value) == 0) {
+				map->array[i] = NULL;
+				return map;
+			}
+		}
+	}
+	else {
+		printf("Ne postoji vrijednost u hash tablici!");
+		return map;
+	}
+
 	
 	loadFactor = (float)map->numberOfElements / map->capacity;
 	printf("Load factor je %3f\n", loadFactor);
@@ -107,44 +149,27 @@ hashMap* delete (hashMap* map, char* value) {
 
 char* search(hashMap* map, char* value) {
 	int bucketIndex = hashFunction(map, value);
-	int tmp = 1;
 	char* errorMessage = "Ne postoji!";
+	
+	if (map->array[bucketIndex] != NULL) {
+		if (strcmp(map->array[bucketIndex], value) == 0) {
+			return map->array[bucketIndex];
+		}
+	}
+	for (int i = bucketIndex + 1; i < map->capacity; i++) {
+		if (map->array[i] == NULL) continue;
+		if (strcmp(map->array[i], value) == 0) {
+			return map->array[i];
+		}
+	}
+	for (int i = 0; i < bucketIndex; i++) {
+		if (map->array[i] == NULL) continue;
+		if (strcmp(map->array[i], value) == 0) {
+			return map->array[i];
+		}
 
-	if (map->array[bucketIndex] == value) {
-		return value;
 	}
-	else {
-		tmp += bucketIndex;
-		while (map->array[tmp] != NULL && tmp < map->capacity) {
-			if (map->array[tmp] == value) {
-				return value;
-			}
-			tmp++;
-		}
-		if (tmp == map->capacity) {
-			tmp = 0;
-			while (map->array[tmp] != NULL && tmp < bucketIndex) {
-				if (map->array[tmp] == value) {
-					return value;
-				}
-				tmp++;
-			}
-			if (tmp >= bucketIndex) {
-				return errorMessage;
-			}
-			else {
-				if (map->array[tmp] == NULL) {
-					return errorMessage;
-				}
-				else {
-					return value;
-				}
-			}
-		}
-		else {
-			return errorMessage;
-		}
-	}
+	return errorMessage;
 }
 
 hashMap* rehash(hashMap* map, float factor) {

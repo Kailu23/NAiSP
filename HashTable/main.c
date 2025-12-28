@@ -58,11 +58,18 @@ int main() {
 
     printf("Insertion:\n");
     map = insert(map, "ABCDD");
+    map = insert(map, "ABCDD");
     map = insert(map, "ABDCD");
     map = insert(map, "ACBDD");
     map = insert(map, "ACDBD");
     map = insert(map, "ADCBD");
     printf("%s\n", search(map, "ACDBD"));
+    printf("%s\n", search(map, "ADCBD"));
+
+    map = delete(map, "ABCDD");
+    printf("%s\n", search(map, "ABCDD"));
+    //map = delete(map, "ABDCD");
+    printf("%s\n", search(map, "ABDCD"));
 
     return 0;
 }
