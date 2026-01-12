@@ -3,7 +3,7 @@
 #include <math.h>
 
 
-int init = 0;
+char init = 0;
 
 int random(int max) {
 	int result = 1;
@@ -17,10 +17,10 @@ lista* inicijalizacija() {
 	if (!init) {
 		srand((unsigned int)time(NULL)); init = 1;
 	}
-	lista* head = calloc(1, sizeof(lista));
+	lista* head = (lista*)calloc(1, sizeof(lista));
 	if (!head) return NULL;
 	head->height = MAX;
-	head->header = calloc(1, sizeof(element));
+	head->header = (element*)calloc(1, sizeof(element));
 	for (int i = 0; i < MAX; i++) {
 		head->header->next[i] = NULL;
 	}
