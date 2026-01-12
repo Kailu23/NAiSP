@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define N 500000
+#define N 10000000
 #define MAX 24
 
 char init = 0;
@@ -100,9 +100,7 @@ element* search(lista* list, int key) {
 				printf("Pronadjen...height=%d\n", i);
 				break;
 			}
-
 		}
-
 	}
 	if (current != NULL && current->x == key) {
 		return current;
@@ -153,15 +151,18 @@ typedef struct Node {
 	struct Node* next;
 } Node;
 
-void InsertInList(Node* head, int value) {
+Node* InsertInList(Node* head, int value) {
 	Node* newNode = (Node*)malloc(sizeof(Node));
 	newNode->x = value;
 	if (head == NULL) {
 		head = newNode;
-		return;
+		newNode->next = NULL;
 	}
-	newNode->next = head;
-	head = newNode;
+	else {
+		newNode->next = head;
+		head = newNode;
+	}
+	return head;
 }
 
 Node* SequentialSearchLinkedList(Node* head, int target) {
@@ -182,7 +183,7 @@ void TestLinkedList() {
 	Node* head = NULL;
 
 	for (int i = 0; i < N; i++) {
-		InsertInList(head, i);
+		head = InsertInList(head, i);
 	}
 
 	end = clock();
