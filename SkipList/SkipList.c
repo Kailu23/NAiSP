@@ -5,7 +5,7 @@
 
 char init = 0;
 
-int random(int max) {
+int randomm(int max) {
 	int result = 1;
 	while (result < max && (rand() > RAND_MAX / 2)) {
 		++result;
@@ -56,7 +56,7 @@ void ubaci(lista* lista, int x) {
 	}
 	//ubacujemo novi element - nije pronadjeno nista 
 	element* new_entry = malloc(sizeof(element));
-	int h = random(lista->height);
+	int h = randomm(lista->height);
 	new_entry->height = h;
 	new_entry->x = x;
 	int i;
@@ -154,94 +154,85 @@ void printSkipList(lista* list) {
 	}
 }
 
-void fprintSkipList(lista* list) {
+void fprintSkipList(lista* list, int size) {
 	FILE* ptr;
 	ptr = fopen("output.txt", "a");
 	fprintf(ptr, "Skip List:\n");
 	for (int i = 0; i < list->height; i++) {
-		element* current = list->header->next[i];
-		fprintf(ptr, "Level %d: ", i);
-		while (current != NULL) {
-			fprintf(ptr, "%d ", current->x); 
-			current = current->next[i];
-		}
-		fprintf(ptr, "\n");
-	}
-}
 
-void Insert(lista* lista, int x) {
-	element* prev[MAX];
-	element* curr = lista->header;
-	int level = lista->height - 1;
-	while (curr != NULL && level >= 0) {
-		prev[level] = curr; 
-		if (curr->next[level] == NULL) {
-			--level;
+		fprintf(ptr, "Level %d: ", i);
+
+		for (int j = 0; j < 2 * i; j++) {
+			fprintf(ptr, " ");
 		}
-		else {
-			if (curr->next[level]->x == x) {
-				//pronasao vrijednost - nema akcije
-				curr->next[level]->x = x; 
-				return;
-			}
-			else if (curr->next[level]->x > x) {
-				//spustamo se na razinu ispod
-				--level;
+		element* current = list->header->next[i];
+		for (int k = 0; k < 2 * (list->height - i) && current != NULL; k++) {
+			fprintf(ptr, "%d ", current->x);
+			if (current->next[i] == NULL) {
+				fprintf(ptr, "* ");
+				break;
 			}
 			else {
-				//pomjeramo se u desno
-				curr = curr->next[level];
+				current = current->next[i];
 			}
-
 		}
 
+		fprintf(ptr, "\n");
 	}
-	//ubacujemo novi element - nije pronadjeno nista 
-	element* new_entry = malloc(sizeof(element));
-	//new_entry->x is a placeholder
-	//int h = CalculateHeight(new_entry->x);
-	//new_entry->height = h;
-	new_entry->x = x;
-
-	//Correction of heights
-	new_entry->next[0] = prev[0]->next[0];
-	prev[0]->next[0] = new_entry;
-	RecalculateHeight(lista->header, new_entry->x);
-
-	//inicijalizacija pokazivaca iznad izracunate razine
-	int i;
-	for (i = MAX - 1; i > new_entry->height; --i) {
-		new_entry->next[i] = NULL;
-	}
-	// Tie in other pointers
-	for (i = new_entry->height - 1; i > 0; --i) {
-		new_entry->next[i] = prev[i]->next[i];
-		prev[i]->next[i] = new_entry;
-	}
+	fclose(ptr);
 }
 
-int CalculateHeight(int number) {
+int CalculateHeight(unsigned int index) {
 	int i = 1;
-	while (number % (int)pow(2, i) == 0) {
+	while (index % (int)pow(2, i) == 0) {
 		i++;
 	}
 	return i;
 }
-void RecalculateHeight(element* node, int x) {
-	int position = 1;
 
-	element* tmp = node;
+void MakePerfect(lista* lista) {
+	if (!lista || !lista->header) return;
 
-	while (tmp->x != x) {
-		position++;
-		tmp = tmp->next[0];
+	element* nodes[N];
+	unsigned int index;
+	int count = 0;
+
+	element* current = lista->header->next[0];
+	while (current != NULL && count < N) {
+		nodes[count++] = current;
+		current = current->next[0];
 	}
 
-	while (tmp != NULL)
-	{
-		tmp->height = CalculateHeight(position);
-		position++;
-		tmp = tmp->next[0];
+	if (count == 0) return;
+
+	for (int i = 0; i < count; i++) {
+		index = i + 1;
+		nodes[i]->height = CalculateHeight(index);
+	}
+
+	for (int i = 0; i < count; i++) {
+		for (int lvl = 0; lvl < MAX; lvl++) {
+			nodes[i]->next[lvl] = NULL;
+		}
+	}
+	for (int lvl = 0; lvl < MAX; lvl++) {
+		lista->header->next[lvl] = NULL;
+	}
+
+	int height;
+	for (int level = 0; level < lista->height; level++) {
+		element* previous = lista->header;
+		for (int i = 0; i < count; i++) {
+			index = i + 1;
+			height = nodes[i]->height;
+			if (height > level && index % (1u << level) == 0) {
+				previous->next[level] = nodes[i];
+				previous = nodes[i];
+			}
+		}
+		if (previous != NULL) {
+			previous->next[level] = NULL;
+		}
 	}
 }
 

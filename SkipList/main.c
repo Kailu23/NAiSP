@@ -5,7 +5,6 @@
 
 #endif
 
-#define N 16
 
 int main() {
 	int numbers[N] = {2, 8, 12, 22, 50, 66, 30, 90, 33, 45, 68, 70, 99, 1, 5, 23};
@@ -16,16 +15,10 @@ int main() {
 	}
 	printSkipList(head);
 
+	MakePerfect(head);
+	printSkipList(head);
+
 	FreeMemory(head);
 
-	lista* head2 = inicijalizacija();
-
-	for (int i = 0; i < N; i++) {
-		Insert(head2, numbers[i]);
-	}
-	printSkipList(head2);
-
-	FreeMemory(head2);
 	return 0;
-
 }

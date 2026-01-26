@@ -1,7 +1,12 @@
+#ifndef SL
+
+#define SL "SkipList.h"
+#endif
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <time.h>
 #define MAX 4
+#define N 16
 
 struct _element {
 	int x;
@@ -17,7 +22,7 @@ struct _lista {
 };
 typedef struct _lista lista;
 
-int random(int max);
+int randomm(int max);
 
 lista* inicijalizacija();
 
@@ -29,14 +34,10 @@ element* search(lista* list, int key);
 
 void printSkipList(lista* list);
 
-
-//my custom functions
-
-void fprintSkipList(lista* list);
-
-void Insert(lista* lista, int x);
-
-void RecalculateHeight(element* node, int x);
+void fprintSkipList(lista* list, int size);
 
 void FreeMemory(lista* lista);
 
+int CalculateHeight(unsigned int number);
+
+void MakePerfect(lista* lista);
