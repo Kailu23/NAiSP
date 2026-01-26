@@ -157,28 +157,23 @@ void printSkipList(lista* list) {
 void fprintSkipList(lista* list, int size) {
 	FILE* ptr;
 	ptr = fopen("output.txt", "a");
+
 	fprintf(ptr, "Skip List:\n");
-	for (int i = 0; i < list->height; i++) {
+	for (int level = 0; level < list->height; level++) {
+		fprintf(ptr, "Level %d: ", level);
 
-		fprintf(ptr, "Level %d: ", i);
-
-		for (int j = 0; j < 2 * i; j++) {
+		for (int pad = 0; pad < level * 8; pad++)
 			fprintf(ptr, " ");
-		}
-		element* current = list->header->next[i];
-		for (int k = 0; k < 2 * (list->height - i) && current != NULL; k++) {
-			fprintf(ptr, "%d ", current->x);
-			if (current->next[i] == NULL) {
-				fprintf(ptr, "* ");
-				break;
-			}
-			else {
-				current = current->next[i];
-			}
+
+		element* current = list->header->next[level];
+		while (current != NULL) {
+			fprintf(ptr, "%3d ", current->x);
+			current = current->next[level];
 		}
 
 		fprintf(ptr, "\n");
 	}
+
 	fclose(ptr);
 }
 
